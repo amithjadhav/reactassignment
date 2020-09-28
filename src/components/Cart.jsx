@@ -8,10 +8,12 @@ import {Link} from 'react-router-dom'
 export class Cart extends Component{
 static contextType = DataContext;
 componentDidMount(){
-    this.context.getTotal();
+this.context.getTotal();
+this.context.getSubTotal();
+this.context.getDiscount();
 }
 render(){
-const {cart, increase, decrease, removeProduct, total} = this.context;
+const {cart, increase, decrease, removeProduct, total, subTotal, discount} = this.context;
 if(cart.length === 0){
 return <div className="noParoduct">
     <h2>No Products Availble in Cart</h2>
@@ -27,7 +29,10 @@ return(
         <img src={item.src} alt="" />
         <div className="box">
             <h2>{item.title}</h2>
-            <span className="price">₹ {item.price * item.count}</span>
+            <div className="cartPrice">
+                <span className="price">₹ {item.price * item.count}</span> <span className="oldPrice">{item.oldPrice *
+                    item.count}</span>
+            </div>
             <div className="amount">
                 <button className="count" onClick={()=> decrease(item._id)}>
                     <IconDecrease className="amountIcon" /></button>
@@ -42,12 +47,22 @@ return(
     </div>
     ))
     }
-    <div className="tatal">
-        <div className="caption">Total</div>
-<div className="totalAmount">₹ {total}</div>
-    </div>
-    <div className="paymebtBtn text-center">
-        <Link to="/payment">Make Payment</Link>
+    <div class="totalBox">
+        <div className="tatal">
+            <div className="caption">Sub Total</div>
+            <div className="totalAmount">₹ {subTotal}</div>
+        </div>
+        <div className="tatal">
+            <div className="caption">Sub Total</div>
+            <div className="totalAmount">₹ {discount}</div>
+        </div>
+        <div className="tatal">
+            <div className="caption final">Total</div>
+            <div className="totalAmount final">₹ {total}</div>
+        </div>
+        <div className="paymebtBtn text-center">
+            <Link to="/payment">Make Payment</Link>
+        </div>
     </div>
 </>
 )
